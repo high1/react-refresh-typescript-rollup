@@ -1,0 +1,74 @@
+{
+  "scripts": {
+    "build": "npm run clean && cross-env NODE_ENV=production rollup -c",
+    "clean": "rimraf dist",
+    "serve": "ws --directory dist",
+    "start": "concurrently  \"cross-env NODE_ENV=development nollup -c --hot --content-base public --port 9001\" \"tsc --noEmit --watch\"",
+    "test": "concurrently \"tsc --noEmit\" \"jest\""
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-react": "^7.10.1",
+    "@babel/preset-typescript": "^7.10.1",
+    "@rollup/plugin-commonjs": "^12.0.0",
+    "@rollup/plugin-typescript": "^4.1.2",
+    "@rollup/plugin-url": "^5.0.0",
+    "@testing-library/jest-dom": "^5.9.0",
+    "@testing-library/react": "^10.1.0",
+    "@types/jest": "^25.2.3",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "babel-jest": "^26.0.1",
+    "concurrently": "^5.2.0",
+    "cross-env": "^7.0.2",
+    "jest": "^26.0.1",
+    "local-web-server": "^4.2.0",
+    "nollup": "^0.11.1",
+    "react-refresh": "^0.8.3",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.13.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs-alternate": "^0.5.1",
+    "rollup-plugin-hot-css": "0.2.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-react-refresh": "0.0.2",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-static-files": "0.0.1",
+    "rollup-plugin-terser": "^6.1.0",
+    "typescript": "^3.9.3"
+  },
+  "jest": {
+    "roots": [
+      "src"
+    ],
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    },
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|svg)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "assets",
+      ".css.d.ts"
+    ],
+    "setupFilesAfterEnv": [
+      "./jest.setup.ts"
+    ]
+  }
+}
