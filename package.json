@@ -90,9 +90,6 @@
     ],
     "setupFilesAfterEnv": [
       "./jest.setup.ts"
-    ],
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!react)"
     ]
   }
 }
