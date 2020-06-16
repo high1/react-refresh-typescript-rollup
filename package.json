@@ -1,12 +1,18 @@
 {
   "scripts": {
-    "build": "npm run clean && cross-env NODE_ENV=production rollup -c",
+    "build": "run-s clean rollup",
     "clean": "rimraf dist",
-    "serve": "ws --directory dist",
-    "start": "concurrently  \"cross-env NODE_ENV=development nollup -c --hot --content-base public --port 9001\" \"tsc --noEmit --watch\"",
-    "test": "concurrently \"tsc --noEmit\" \"jest\""
+    "coverage": "jest --coverage",
+    "lint": "eslint ./src",
+    "nollup": "cross-env NODE_ENV=development nollup -c --hot --content-base public --port 9001",
+    "rollup": "cross-env NODE_ENV=production rollup -c",
+    "serve": "sirv dist",
+    "start": "run-p nollup type:check",
+    "test": "jest",
+    "type:check": "tsc --noEmit --watch"
   },
   "dependencies": {
+    "@rmwc/button": "^6.1.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
@@ -15,39 +21,54 @@
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-react": "^7.10.1",
     "@babel/preset-typescript": "^7.10.1",
-    "@rollup/plugin-commonjs": "^12.0.0",
+    "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-typescript": "^4.1.2",
-    "@rollup/plugin-url": "^5.0.0",
-    "@testing-library/jest-dom": "^5.9.0",
-    "@testing-library/react": "^10.1.0",
-    "@types/jest": "^25.2.3",
-    "@types/react": "^16.9.35",
+    "@rollup/plugin-url": "^5.0.1",
+    "@testing-library/jest-dom": "^5.10.1",
+    "@testing-library/react": "^10.2.1",
+    "@types/jest": "^26.0.0",
+    "@types/react": "^16.9.36",
     "@types/react-dom": "^16.9.8",
+    "@typescript-eslint/eslint-plugin": "^3.3.0",
+    "@typescript-eslint/parser": "^3.3.0",
+    "babel-eslint": "^10.1.0",
     "babel-jest": "^26.0.1",
-    "concurrently": "^5.2.0",
     "cross-env": "^7.0.2",
+    "eslint": "^7.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jest": "^23.13.2",
+    "eslint-plugin-jest-dom": "^3.0.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "eslint-plugin-testing-library": "^3.3.0",
     "jest": "^26.0.1",
-    "local-web-server": "^4.2.0",
     "nollup": "^0.11.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.0.5",
     "react-refresh": "^0.8.3",
     "rimraf": "^3.0.2",
-    "rollup": "^2.13.1",
+    "rollup": "^2.16.1",
     "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs-alternate": "^0.5.1",
-    "rollup-plugin-hot-css": "0.2.1",
+    "rollup-plugin-hot-css": "0.3.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-react-refresh": "0.0.2",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-static-files": "0.0.1",
     "rollup-plugin-terser": "^6.1.0",
-    "typescript": "^3.9.3"
+    "sirv-cli": "^1.0.0",
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.5"
   },
   "jest": {
     "roots": [
       "src"
     ],
     "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
     },
     "moduleDirectories": [
       "node_modules"
@@ -61,7 +82,7 @@
       "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}"
+      "src/**/*.{js,jsx,ts,tsx}"
     ],
     "coveragePathIgnorePatterns": [
       "assets",
@@ -69,6 +90,9 @@
     ],
     "setupFilesAfterEnv": [
       "./jest.setup.ts"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!react)"
     ]
   }
 }

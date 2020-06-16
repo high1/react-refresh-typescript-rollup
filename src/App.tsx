@@ -1,11 +1,9 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import Counter from './Counter';
 import logo from './logo.svg';
 import './App.css';
 
-interface AppProps {}
-
-function App({}: AppProps) {
+const App: FC = () => {
   return (
     <div className="App">
       <header className="App-header">
@@ -21,10 +19,10 @@ function App({}: AppProps) {
         >
           Learn React
         </a>
-        <Counter instance={1}/>
+        <Counter instance={3} />
       </header>
     </div>
   );
-}
+};
 
 export default App;

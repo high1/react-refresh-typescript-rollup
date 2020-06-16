@@ -1,4 +1,8 @@
 .Counter {
     font-size: 40px;
-    color: yellow;
+    color: greenyellow;
 }
+
+.App-header .mdc-button.mdc-button--raised {
+    background-color: goldenrod;
+  }

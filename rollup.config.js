@@ -9,45 +9,48 @@ import refresh from 'rollup-plugin-react-refresh';
 import url from '@rollup/plugin-url';
 import typescript from '@rollup/plugin-typescript';
 
-const extensions =  ['.js', '.jsx', '.ts', '.tsx'];
+const development = process.env.NODE_ENV === 'development';
+const production = process.env.NODE_ENV === 'production';
+const extensions = ['.js', '.jsx', '.ts', '.tsx'];
+
 let config = {
-    input: './src/main.tsx',
-    output: {
-        dir: 'dist',
-        format: 'esm',
-        entryFileNames: '[name].[hash].js',
-        assetFileNames: '[name].[hash][extname]'
-    },
-    plugins: [
-        replace({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-        }),
-        hotcss({
-            hot: process.env.NODE_ENV === 'development',
-            filename: 'styles.css'
-        }),
-        resolve({ extensions }),
-        process.env.NODE_ENV !== 'production' && babel({ extensions }),
-        commonjs(),
-        url(),
-        process.env.NODE_ENV === 'development' && refresh({ extensions }),
-        process.env.NODE_ENV === 'production' && typescript()
-    ]
-}
+  input: './src/main.tsx',
+  output: {
+    dir: 'dist',
+    format: 'esm',
+    entryFileNames: '[name].[hash].js',
+    assetFileNames: '[name].[hash][extname]',
+  },
+  plugins: [
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
+    hotcss({
+      hot: development,
+      filename: 'styles.css',
+    }),
+    resolve({ extensions }),
+    !production && babel({ extensions }), // do not run for production
+    commonjs(),
+    url(),
+    development && refresh({ extensions }), // just for developement
+    production && typescript({ module: 'esnext' }), // compile with typescript for production
+  ],
+};
 
 if (process.env.NODE_ENV === 'production') {
-    config.plugins = config.plugins.concat([
-        static_files({
-            include: ['./public']
-        }),
-        terser({
-            compress: {
-                global_defs: {
-                    module: false
-                }
-            }
-        })
-    ]);
+  config.plugins = config.plugins.concat([
+    static_files({
+      include: ['./public'],
+    }),
+    terser({
+      compress: {
+        global_defs: {
+          module: false,
+        },
+      },
+    }),
+  ]);
 }
 
 export default config;

@@ -4,5 +4,4 @@ import App from './App';
 import './main.css';
 
 const root = document.querySelector('#app');
-document.body.appendChild(root as HTMLElement);
-ReactDOM.render(<App />, root)
+ReactDOM.render(<App />, root);
